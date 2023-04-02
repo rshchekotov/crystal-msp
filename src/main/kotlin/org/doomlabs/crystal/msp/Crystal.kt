@@ -62,7 +62,10 @@ class Crystal : JavaPlugin() {
             }
         }
 
-        val datapackDirectory = Bukkit.getWorldContainer().toPath().resolve("datapacks")
+        val datapackDirectory = Bukkit.getWorldContainer().toPath()
+            .resolve("plugins")
+            .resolve("datapacks")
+            .resolve("crystal")
         unzip(dataFile, datapackDirectory.toFile())
         Bukkit.reloadData()
     }
