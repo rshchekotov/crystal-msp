@@ -2,6 +2,8 @@ package org.doomlabs.crystal.msp.event.inventory
 
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
+import org.bukkit.advancement.Advancement
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -24,6 +26,21 @@ import org.doomlabs.crystal.msp.util.runBukkit
  * or used, it is replenished.
  */
 object InvBucketCraft : Listener {
+    private val infiniteWaterAdvancement: Advancement by lazy {
+        Bukkit.getAdvancement(NamespacedKey("crystal", "infinite_water"))!!
+    }
+
+    private fun fillWater(emptyBucket: ItemStack, inv: Inventory) {
+        emptyBucket.type = Material.WATER_BUCKET
+        val holder = inv.holder
+        if(holder is Player) {
+            val progress = holder.getAdvancementProgress(infiniteWaterAdvancement)
+            if(!progress.isDone) {
+                progress.awardCriteria("inventory_water_source")
+            }
+        }
+    }
+
     private fun checkInfiniteWater(inv: Inventory, slotType: SlotType, slot: Int, emptyBucket: ItemStack): Boolean {
         val legalInventories = listOf(BARREL, CHEST, PLAYER, ENDER_CHEST, SHULKER_BOX)
         val legalSlots = listOf(CONTAINER, QUICKBAR)
@@ -35,22 +52,21 @@ object InvBucketCraft : Listener {
         if (slotType == QUICKBAR) {
             if(slot > 0 && slot < (width - 1)) {
                 if (isWaterBucket(inv.getItem(slot - 1)) && isWaterBucket(inv.getItem(slot + 1))) {
-                    emptyBucket.type = Material.WATER_BUCKET
+                    fillWater(emptyBucket, inv)
                     return true
                 }
             }
         } else if (slotType == CONTAINER) {
-            val height = inv.size / width
-
+            val height = if (inv.type == PLAYER) 3 else inv.size / width
             val horizontal = slot % width
-            val vertical = slot / width
+            val vertical = if (inv.type == PLAYER) (slot - 9) / width else slot / width
 
             val match = { offset: Int ->
                 if (
                     isWaterBucket(inv.getItem(slot - offset)) &&
                     isWaterBucket(inv.getItem(slot + offset))
                 ) {
-                    emptyBucket.type = Material.WATER_BUCKET
+                    fillWater(emptyBucket, inv)
                     true
                 } else false
             }

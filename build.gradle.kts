@@ -4,8 +4,6 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import org.jetbrains.kotlin.daemon.common.toHexString
 import org.jetbrains.kotlin.incremental.deleteDirectoryContents
 import java.security.MessageDigest
-import java.util.zip.ZipEntry
-import java.util.zip.ZipOutputStream
 
 plugins {
     kotlin("jvm")
@@ -33,8 +31,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinSerializationVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$kotlinSerializationVersion")
-    implementation("net.kyori:adventure-extra-kotlin:4.7.0")
 
+    implementation("org.apache.commons:commons-compress:1.23.0")
+
+    implementation("net.kyori:adventure-extra-kotlin:4.7.0")
     compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
 
     testImplementation(kotlin("test"))
@@ -78,6 +78,7 @@ tasks {
 
         from(file("$base/crystal-resources.sha1"))
         from(file("$base/crystal-data.sha1"))
+        rename(Regex("crystal-(.*)\\.sha1").toPattern(), "latest-\$1.sha1")
         into(file("build/resources/main"))
 
         dependsOn(processResources.get())
@@ -93,7 +94,8 @@ tasks {
 
     processResources.get().dependsOn(compressResources, compressData)
     jar.get().dependsOn(transferHash)
-    build.get().dependsOn(project.tasks.named("shadowJar"))
+    shadowJar.get().dependsOn(transferHash)
+    build.get().dependsOn(shadowJar.get())
 }
 
 kotlin {
@@ -103,7 +105,7 @@ kotlin {
 bukkit {
     main = "org.doomlabs.crystal.msp.Crystal"
     apiVersion = "1.19"
-    load = BukkitPluginDescription.PluginLoadOrder.STARTUP
+    load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
     authors = listOf("Doomer")
     prefix = "crystal"
     description = "Plugin for my Crystal Project"

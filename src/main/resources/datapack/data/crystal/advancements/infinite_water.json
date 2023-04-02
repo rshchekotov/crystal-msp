@@ -15,7 +15,7 @@
     }
   },
   "criteria": {
-    "*": {
+    "inventory_water_source": {
       "trigger": "minecraft:impossible"
     }
   }
