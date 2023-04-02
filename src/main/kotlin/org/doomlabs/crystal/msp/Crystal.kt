@@ -6,10 +6,8 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.doomlabs.crystal.msp.event.filter.HopperFilterPipe
 import org.doomlabs.crystal.msp.event.inventory.InvBucketCraft
 import org.doomlabs.crystal.msp.event.join.ResourcePackLoader
-import org.doomlabs.crystal.msp.util.unzip
 import java.net.URL
 import java.util.logging.Logger
-import kotlin.io.path.createTempFile
 
 @Suppress("unused")
 class Crystal : JavaPlugin() {
@@ -18,8 +16,13 @@ class Crystal : JavaPlugin() {
     }
 
     override fun onEnable() {
-        loadDataPack()
         loadResourcePack()
+        loadDataPack()
+
+        Bukkit.getScheduler().runTaskLater(this, { ->
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "datapack list")
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "datapack enable \"file/crystal.zip\"")
+        }, 1L)
 
         for(player in Bukkit.getOnlinePlayers()) {
             player.setResourcePack(resourcePack, resourcePackHash, true)
@@ -44,11 +47,17 @@ class Crystal : JavaPlugin() {
     }
 
     private fun loadDataPack() {
+        val datapack = Bukkit.getWorldContainer().toPath()
+            .resolve(Bukkit.getWorlds()[0].name)
+            .resolve("datapacks")
+            .resolve("crystal.zip").toFile()
+
+        // TODO: Version Check
+        if(datapack.exists()) return
+
         val latestHash = this::class.java.getResourceAsStream("/latest-data.sha1")?.bufferedReader()?.readLine()
         Bukkit.getLogger().info("Crystal Data Hash: $latestHash")
 
-        val dataFile = createTempFile("datapack", ".zip").toFile()
-        dataFile.deleteOnExit()
         val sha1 = URL(remoteRepository("src/generated/resources/crystal-data.sha1")).readText()
         val data = URL(remoteRepository("src/generated/resources/crystal-data.zip"))
 
@@ -56,18 +65,13 @@ class Crystal : JavaPlugin() {
             Bukkit.getLogger().warning("Crystal Data Hash Mismatch: $sha1 != $latestHash")
         }
 
+        Bukkit.getLogger().info("Started installing Crystal Data Pack")
         data.openStream().use { input ->
-            dataFile.outputStream().use { output ->
+            datapack.outputStream().use { output ->
                 input.copyTo(output)
             }
         }
-
-        val datapackDirectory = Bukkit.getWorldContainer().toPath()
-            .resolve("plugins")
-            .resolve("datapacks")
-            .resolve("crystal")
-        unzip(dataFile, datapackDirectory.toFile())
-        Bukkit.reloadData()
+        Bukkit.getLogger().info("Finished installing Crystal Data Pack")
     }
 
     companion object {
