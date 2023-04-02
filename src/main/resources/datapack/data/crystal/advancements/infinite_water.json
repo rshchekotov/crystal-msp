@@ -1,0 +1,22 @@
+{
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.infinite_water.description"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "minecraft:water_bucket"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.infinite_water.title"
+    }
+  },
+  "criteria": {
+    "*": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}
