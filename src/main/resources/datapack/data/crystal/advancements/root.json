@@ -1,0 +1,23 @@
+{
+  "display": {
+    "announce_to_chat": false,
+    "background": "crystal:textures/gui/advancements/backgrounds/root.png",
+    "description": {
+      "translate": "advancements.root.description"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.root.title"
+    }
+  },
+  "criteria": {
+    "any": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

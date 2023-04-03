@@ -1,4 +1,5 @@
 {
+  "parent": "crystal:root",
   "display": {
     "announce_to_chat": true,
     "description": {

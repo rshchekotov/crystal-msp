@@ -26,6 +26,10 @@ import org.doomlabs.crystal.msp.util.runBukkit
  * or used, it is replenished.
  */
 object InvBucketCraft : Listener {
+    private val rootAchievement: Advancement by lazy {
+        Bukkit.getAdvancement(NamespacedKey("crystal", "root"))!!
+    }
+
     private val infiniteWaterAdvancement: Advancement by lazy {
         Bukkit.getAdvancement(NamespacedKey("crystal", "infinite_water"))!!
     }
@@ -34,9 +38,14 @@ object InvBucketCraft : Listener {
         emptyBucket.type = Material.WATER_BUCKET
         val holder = inv.holder
         if(holder is Player) {
-            val progress = holder.getAdvancementProgress(infiniteWaterAdvancement)
-            if(!progress.isDone) {
-                progress.awardCriteria("inventory_water_source")
+            val rootProgress = holder.getAdvancementProgress(rootAchievement)
+            if(!rootProgress.isDone) {
+                rootProgress.awardCriteria("any")
+            }
+
+            val waterProgress = holder.getAdvancementProgress(infiniteWaterAdvancement)
+            if(!waterProgress.isDone) {
+                waterProgress.awardCriteria("inventory_water_source")
             }
         }
     }
