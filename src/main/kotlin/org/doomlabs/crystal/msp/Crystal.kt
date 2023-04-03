@@ -43,7 +43,6 @@ class Crystal : JavaPlugin() {
         if(latestHash != resourcePackHash) {
             Bukkit.getLogger().warning("Crystal Resources Hash Mismatch: $latestHash != $resourcePackHash")
         }
-
     }
 
     private fun loadDataPack() {

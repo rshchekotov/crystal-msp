@@ -87,6 +87,8 @@ tasks {
 
     clean.get().doLast {
         file("src/generated/resources/").deleteDirectoryContents()
+        val download = file("run/world/datapacks/crystal.zip")
+        if(download.exists()) download.delete()
     }
 
     test.get().useJUnitPlatform()

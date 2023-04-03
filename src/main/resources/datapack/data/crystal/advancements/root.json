@@ -3,7 +3,7 @@
     "announce_to_chat": false,
     "background": "crystal:textures/gui/advancements/backgrounds/root.png",
     "description": {
-      "translate": "crystal:advancements.root.description"
+      "translate": "advancements.crystal.description"
     },
     "frame": "task",
     "hidden": true,
@@ -12,7 +12,7 @@
     },
     "show_toast": false,
     "title": {
-      "translate": "crystal:advancements.root.title"
+      "translate": "advancements.crystal.title"
     }
   },
   "criteria": {
