@@ -3,7 +3,7 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.infinite_water.description"
+      "translate": "crystal:advancements.infinite_water.description"
     },
     "frame": "task",
     "hidden": true,
@@ -12,7 +12,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.infinite_water.title"
+      "translate": "crystal:advancements.infinite_water.title"
     }
   },
   "criteria": {
