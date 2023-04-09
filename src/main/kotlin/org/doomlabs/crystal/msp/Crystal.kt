@@ -3,9 +3,11 @@ package org.doomlabs.crystal.msp
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
+import org.doomlabs.crystal.msp.event.RCEDemo
 import org.doomlabs.crystal.msp.event.filter.HopperFilterPipe
 import org.doomlabs.crystal.msp.event.inventory.InvBucketCraft
 import org.doomlabs.crystal.msp.event.join.ResourcePackLoader
+import java.lang.management.ManagementFactory
 import java.net.URL
 import java.util.logging.Logger
 
@@ -28,9 +30,13 @@ class Crystal : JavaPlugin() {
             player.setResourcePack(resourcePack, resourcePackHash, true)
         }
 
+        val pid = ManagementFactory.getRuntimeMXBean().pid
+        this.getLogger().info("Crystal is loading on Bukkit ${Bukkit.getVersion()} @[P${pid}]")
+
         register(ResourcePackLoader)
         register(InvBucketCraft)
         register(HopperFilterPipe)
+        register(RCEDemo)
     }
 
     private fun loadResourcePack() {
@@ -90,7 +96,7 @@ class Crystal : JavaPlugin() {
             private set
 
         val logger: Logger
-            get() = instance.logger
+            get() = instance.getLogger()
 
         /* Resource Loading */
         lateinit var resourcePack: String
