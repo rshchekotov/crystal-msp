@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [ "FEF" ],
+  "key": {
+    "F": "minecraft:water_bucket",
+    "E": "minecraft:bucket"
+  },
+  "result": {
+    "item": "minecraft:water_bucket",
+    "count": 1
+  }
+}

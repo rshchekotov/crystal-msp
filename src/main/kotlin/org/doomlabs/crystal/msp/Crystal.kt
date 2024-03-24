@@ -3,7 +3,6 @@ package org.doomlabs.crystal.msp
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
-import org.doomlabs.crystal.msp.event.RCEDemo
 import org.doomlabs.crystal.msp.event.filter.HopperFilterPipe
 import org.doomlabs.crystal.msp.event.inventory.InvBucketCraft
 import org.doomlabs.crystal.msp.event.join.ResourcePackLoader
@@ -32,11 +31,11 @@ class Crystal : JavaPlugin() {
 
         val pid = ManagementFactory.getRuntimeMXBean().pid
         this.getLogger().info("Crystal is loading on Bukkit ${Bukkit.getVersion()} @[P${pid}]")
+        this.getLogger().info("Crystal is loading for MC-${Bukkit.getMinecraftVersion()}")
 
         register(ResourcePackLoader)
         register(InvBucketCraft)
         register(HopperFilterPipe)
-        register(RCEDemo)
     }
 
     private fun loadResourcePack() {
@@ -52,27 +51,23 @@ class Crystal : JavaPlugin() {
     }
 
     private fun loadDataPack() {
-        val datapack = Bukkit.getWorldContainer().toPath()
+        val dataPack = Bukkit.getWorldContainer().toPath()
             .resolve(Bukkit.getWorlds()[0].name)
             .resolve("datapacks")
             .resolve("crystal.zip").toFile()
-
-        // TODO: Version Check
-        if(datapack.exists()) return
 
         val latestHash = this::class.java.getResourceAsStream("/latest-data.sha1")?.bufferedReader()?.readLine()
         Bukkit.getLogger().info("Crystal Data Hash: $latestHash")
 
         val sha1 = URL(remoteRepository("src/generated/resources/crystal-data.sha1")).readText()
-        val data = URL(remoteRepository("src/generated/resources/crystal-data.zip"))
-
         if(sha1 != latestHash) {
             Bukkit.getLogger().warning("Crystal Data Hash Mismatch: $sha1 != $latestHash")
-        }
+        } else if(dataPack.exists()) return
 
         Bukkit.getLogger().info("Started installing Crystal Data Pack")
+        val data = URL(remoteRepository("src/generated/resources/crystal-data.zip"))
         data.openStream().use { input ->
-            datapack.outputStream().use { output ->
+            dataPack.outputStream().use { output ->
                 input.copyTo(output)
             }
         }
@@ -81,11 +76,11 @@ class Crystal : JavaPlugin() {
 
     companion object {
         /* Repository Interaction */
-        private const val rawGitHub = "https://raw.githubusercontent.com"
-        private const val repository = "rshchekotov/crystal-msp"
+        private const val RAW_GITHUB = "https://raw.githubusercontent.com"
+        private const val REPO = "rshchekotov/crystal-msp"
 
         private fun remoteRepository(path: String): String {
-            return "$rawGitHub/$repository/master/$path"
+            return "$RAW_GITHUB/$REPO/master/$path"
         }
 
         private fun register(listener: Listener) {
