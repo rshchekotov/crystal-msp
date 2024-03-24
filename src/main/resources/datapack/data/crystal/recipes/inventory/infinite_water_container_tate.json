@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [ "F", "E", "F" ],
   "key": {
-    "F": "minecraft:water_bucket",
-    "E": "minecraft:bucket"
+    "F": { "item": "minecraft:water_bucket" },
+    "E": { "item": "minecraft:bucket" }
   },
   "result": {
     "item": "minecraft:water_bucket",

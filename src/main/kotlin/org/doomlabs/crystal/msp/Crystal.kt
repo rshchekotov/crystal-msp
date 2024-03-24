@@ -31,7 +31,11 @@ class Crystal : JavaPlugin() {
 
         val pid = ManagementFactory.getRuntimeMXBean().pid
         this.getLogger().info("Crystal is loading on Bukkit ${Bukkit.getVersion()} @[P${pid}]")
-        this.getLogger().info("Crystal is loading for MC-${Bukkit.getMinecraftVersion()}")
+        if (Bukkit.getMinecraftVersion() == "1.19.2") {
+            this.getLogger().info("Crystal is loading for the correct Minecraft version.")
+        } else {
+            this.getLogger().info("This Version of Minecraft is not supported by Crystal - things may break.")
+        }
 
         register(ResourcePackLoader)
         register(InvBucketCraft)
