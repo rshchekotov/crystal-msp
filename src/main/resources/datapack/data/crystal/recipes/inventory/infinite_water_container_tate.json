@@ -1,12 +1,10 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "crystal:inventory_craft",
+  "dimensions": [1, 3],
   "pattern": [ "F", "E", "F" ],
+  "result": [ "F", "F", "F" ],
   "key": {
     "F": { "item": "minecraft:water_bucket" },
     "E": { "item": "minecraft:bucket" }
-  },
-  "result": {
-    "item": "minecraft:water_bucket",
-    "count": 1
   }
 }

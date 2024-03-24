@@ -66,7 +66,10 @@ class Crystal : JavaPlugin() {
         val sha1 = URL(remoteRepository("src/generated/resources/crystal-data.sha1")).readText()
         if(sha1 != latestHash) {
             Bukkit.getLogger().warning("Crystal Data Hash Mismatch: $sha1 != $latestHash")
-        } else if(dataPack.exists()) return
+        } else if(dataPack.exists()) {
+            // TODO: Version Check
+            Bukkit.getLogger().warning("Version Check for Datapack is not implemented yet. Re-fetching datapack.")
+        }
 
         Bukkit.getLogger().info("Started installing Crystal Data Pack")
         val data = URL(remoteRepository("src/generated/resources/crystal-data.zip"))

@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.doomlabs.crystal.msp.Crystal
 import org.doomlabs.crystal.msp.util.runBukkit
 
 /**
@@ -26,6 +27,12 @@ import org.doomlabs.crystal.msp.util.runBukkit
  * or used, it is replenished.
  */
 object InvBucketCraft : Listener {
+    init {
+        NamespacedKey("crystal", "inventory/infinite_water_container_yoko").let {
+            Crystal.logger.info("Loading InvBucketCraft Recipe: ${Bukkit.getRecipe(it)?.result}")
+        }
+    }
+
     private val rootAchievement: Advancement by lazy {
         Bukkit.getAdvancement(NamespacedKey("crystal", "root"))!!
     }
