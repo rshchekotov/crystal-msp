@@ -1,0 +1,12 @@
+{
+  "pattern": [ "FEF" ],
+  "result": [ "FFF" ],
+  "rotation": true,
+  "ingredients": {
+    "F": { "id": "minecraft:water_bucket" },
+    "E": { "id": "minecraft:bucket" }
+  },
+  "achievements": {
+    "crystal:infinite_water": ["inventory_water_source"]
+  }
+}

@@ -96,7 +96,7 @@ tasks {
 
     processResources.get().dependsOn(compressResources, compressData)
     jar.get().dependsOn(transferHash)
-    shadowJar.get().dependsOn(transferHash)
+    shadowJar.get().dependsOn(transferHash, processResources)
     build.get().dependsOn(shadowJar.get())
 }
 

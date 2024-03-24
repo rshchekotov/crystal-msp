@@ -4,7 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import org.doomlabs.crystal.msp.event.filter.HopperFilterPipe
-import org.doomlabs.crystal.msp.event.inventory.InvBucketCraft
+import org.doomlabs.crystal.msp.event.inventory.InventoryCrafting
 import org.doomlabs.crystal.msp.event.join.ResourcePackLoader
 import java.lang.management.ManagementFactory
 import java.net.URL
@@ -38,7 +38,7 @@ class Crystal : JavaPlugin() {
         }
 
         register(ResourcePackLoader)
-        register(InvBucketCraft)
+        register(InventoryCrafting)
         register(HopperFilterPipe)
     }
 

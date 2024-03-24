@@ -1,0 +1,13 @@
+{
+  "pattern": [ "FE", "EF" ],
+  "result": [ "FF", "FF" ],
+  "mirror": {
+    "enable": true,
+    "axis": ["x"]
+  },
+  "ingredients": {
+    "F": { "id": "minecraft:water_bucket" },
+    "E": { "id": "minecraft:bucket" }
+  },
+  "achievement_id": "crystal:infinite_water"
+}
